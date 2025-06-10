@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <title>{% block title %}Идентификация растений{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Tailwind Typography для красивого отображения markdown */
+        .prose {
+            max-width: 65ch;
+            color: #374151;
+            line-height: 1.75;
+        }
+
+        .prose p {
+            margin-top: 1.25em;
+            margin-bottom: 1.25em;
+        }
+
+        .prose strong {
+            color: #111827;
+            font-weight: 600;
+        }
+
+        .prose h1,
+        .prose h2,
+        .prose h3,
+        .prose h4 {
+            color: #111827;
+            font-weight: 600;
+            margin-top: 2em;
+            margin-bottom: 1em;
+            line-height: 1.25;
+        }
+
+        .prose h1 {
+            font-size: 1.5em;
+        }
+
+        .prose h2 {
+            font-size: 1.25em;
+        }
+
+        .prose h3 {
+            font-size: 1.125em;
+        }
+
+        .prose h4 {
+            font-size: 1em;
+        }
+
+        .prose ul {
+            margin-top: 1.25em;
+            margin-bottom: 1.25em;
+            padding-left: 1.625em;
+            list-style-type: disc;
+        }
+
+        .prose-sm {
+            font-size: 0.875rem;
+            line-height: 1.7142857;
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gradient-to-b from-green-50 to-green-100 min-h-screen">
+    <nav class="bg-green-800 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="{% url 'identify_plant' %}" class="text-xl font-bold">PlantID</a>
+            <div>
+                {% if user.is_authenticated %}
+                    <span class="mr-4">Привет, {{ user.username }}</span>
+                    <form method="post" action="{% url 'logout' %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="text-white hover:text-green-200 bg-transparent border-0 p-0 m-0 inline cursor-pointer">Выйти</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-white hover:text-green-200 mr-4">Войти</a>
+                    <a href="{% url 'register' %}" class="text-white hover:text-green-200">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </div>
+
+
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
